@@ -1,0 +1,46 @@
+DROP TABLE IF EXISTS `EXERCISE`;
+
+CREATE TABLE EXERCISE(
+	EXID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	EXNAME VARCHAR(100),
+	NUMBER_OF_ATTEMPTS INT,
+	NUMBER_OF_HINTS INT,
+	NUMBER_OF_INCORRECT_ATTEMPTS INT,
+	NUMBER_OF_CORRECT INT,
+	SECID INT,
+	FOREIGN KEY (SECID) REFERENCES SECTION(SECID)
+);
+
+INSERT INTO EXERCISE (EXNAME, NUMBER_OF_ATTEMPTS, NUMBER_OF_HINTS, NUMBER_OF_INCORRECT_ATTEMPTS, NUMBER_OF_CORRECT, SECID) VALUES
+('Variables and Data Types', 10, 3, 2, 8, 1),
+('Arithmetic and Assignment Operators', 12, 4, 3, 9, 2),
+('Relational and Logical Operators', 13, 5, 4, 9, 2),
+('Control Flow Statements', 15, 6, 5, 10, 2),
+('Arrays and Lists', 8, 2, 1, 7, 6),
+('Sorting Algorithms', 10, 3, 2, 8, 10),
+('Binary Search and Linear Search', 12, 4, 3, 9, 11),
+('Trees and Graphs Traversal', 15, 6, 5, 10, 12),
+('Database Design and Normalization', 8, 2, 1, 7, 15),
+('Basic SQL Queries', 10, 3, 2, 8, 16),
+('Database Security and User Management', 12, 4, 3, 9, 17),
+('Connecting to Databases and Retrieving Data', 15, 6, 5, 10, 18),
+('TCP/IP Protocol Suite', 8, 2, 1, 7, 20),
+('Network Addressing and Subnetting', 10, 3, 2, 8, 21),
+('Firewall and VPN Technologies', 12, 4, 3, 9, 22),
+('Mobile Networks and Wireless LANs', 15, 6, 5, 10, 23),
+('HTML Document Structure and Tags', 8, 2, 1, 7, 24),
+('CSS Properties and Selectors', 10, 3, 2, 8, 25),
+('Manipulating the DOM with JavaScript', 12, 4, 3, 9, 26),
+('Using React.js and Redux', 15, 6, 5, 10, 27),
+('Process and Thread Management', 8, 2, 1, 7, 28),
+('Memory Allocation and Deallocation', 10, 3, 2, 8, 29),
+('File System Access and Permissions', 12, 4, 3, 9, 30),
+('Kernel Modules and Device Drivers', 15, 6, 5, 10, 31),
+('Indexing and Searching Techniques', 8, 2, 1, 7, 32),
+('Search Algorithms for AI', 10, 3, 2, 8, 33),
+('Representing Knowledge with Logic', 12, 4, 3, 9, 34),
+('Building Expert Systems with Inference Engines', 15, 6, 5, 10, 35),
+('Training Neural Networks with Backpropagation', 8, 2, 1, 7, 36),
+('Genetic Algorithms for Optimization Problems', 10, 3, 2, 8, 37),
+('OpenGL and DirectX Graphics Libraries', 12, 4, 3, 9, 38),
+('Creating 3D Models with Blender', 15, 6, 5, 10, 39);

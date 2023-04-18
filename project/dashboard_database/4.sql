@@ -1,0 +1,13 @@
+DROP TABLE IF EXISTS `INSTRUCTOR_BOOK`;
+
+CREATE TABLE INSTRUCTOR_BOOK(
+	INSTID INT,
+	BOOKID INT,
+	FOREIGN KEY (INSTID) REFERENCES INSTRUCTOR(INSTID),
+	FOREIGN KEY (BOOKID) REFERENCES BOOK(BOOKID)
+);
+
+INSERT INTO INSTRUCTOR_BOOK (INSTID, BOOKID) VALUES
+(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 4), (3, 2), (3, 3), (3, 6), (4, 1),
+(4, 3), (4, 4), (5, 1), (5, 2), (5, 5), (6, 2), (6, 4), (6, 7), (7, 1), (7, 2),
+(7, 3), (8, 3), (8, 5), (8, 8), (9, 1), (9, 2), (9, 9), (10, 2), (10, 4), (10, 10);
