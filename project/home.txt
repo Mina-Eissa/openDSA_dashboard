@@ -1,0 +1,23 @@
+home:
+1- books side by side on click(step 2)
+2- overview graph for the selected book + details
+3- irt model for the selected book on click(our playground)
+
+
+
+
+
+instructor: 
+
+
+
+
+
+students:
+
+
+
+
+our playground:
+1- 2 lists 1 for the excercise and the other for the book
+2- graph displays the exercise
