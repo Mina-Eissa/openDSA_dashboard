@@ -9,7 +9,7 @@ import { ColumnSeries,ChartComponent, SeriesCollectionDirective,Tooltip, DataLab
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await axios.post('http://localhost:8000/api/student_exercise_data');
+          const response = await axios.post('http://localhost:8000/api/student_book_data');
           setData(response.data);
           console.log(response.data);
         } catch (error) {
