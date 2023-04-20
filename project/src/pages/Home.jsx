@@ -50,6 +50,7 @@ import { ColumnSeries,ChartComponent, SeriesCollectionDirective,Tooltip, DataLab
     <div className='mt-24'>
        <select onChange={handleBookChange} value={book}>
         <option value="Introduction to Programming">Introduction to Programming</option>
+        <option value="Data Structures and Algorithms">Data Structures and Algorithms</option>
         <option value="Database Systems">Database Systems</option>
         <option value="Computer Networks">Computer Networks</option>
         <option value="Web Development">Web Development</option>
