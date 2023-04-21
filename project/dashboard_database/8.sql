@@ -59,3 +59,7 @@ INSERT INTO SECTION (SECNAME, NUMBER_OF_EXERCISES, CHID) VALUES
 ('Cryptography and Encryption', 4, 11),
 ('Network Security and Intrusion Detection', 4, 11),
 ('Threat Modeling and Risk Assessment', 3, 11);
+
+
+UPDATE SECTION
+SET CHID = FLOOR(ROUND(RAND() * 49 + 1))
