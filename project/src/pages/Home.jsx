@@ -33,7 +33,7 @@ import { ColumnSeries,ChartComponent, SeriesCollectionDirective,Tooltip, DataLab
       labelFormat: 'y',
       intervalType: 'Years',
       edgeLabelPlacement: 'Shift' };
-  const primaryyAxis = { minimum: 0, maximum: 100, interval: 25 };
+  const primaryyAxis = { minimum: 0, maximum: 500, interval: 100 };
   const load = (args) => {
       args.chart.zoomModule.isZoomed = true;
   };
