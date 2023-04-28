@@ -11,25 +11,28 @@ function IRT() {
   const [plotData, setPlotData] = useState({ x: [], y: [] });
 
   const handleClick = () => {
-    axios.get('/file.csv') // assuming data.csv is in the public directory
-      .then(response => {
-        const csvData = response.data;
-        const parsedData = Papa.parse(csvData, { header: true }).data;
-        const matrixData = parsedData.map(row => Object.values(row).map(val => parseInt(val)));
-        const data = { matrix: { data: matrixData } };
-        console.log(data);
-
+    // axios.get('/file.csv') // assuming data.csv is in the public directory
+    //   // .then(response => {
+    //   //   const csvData = response.data;
+    //   //   const parsedData = Papa.parse(csvData, { header: true }).data;
+    //   //   const matrixData = parsedData.map(row => Object.values(row).map(val => parseInt(val)));
+    //   //   const data = { matrix: { data: matrixData } };
+    //   //   console.log(data);
+    const data = 'attemps_test.csv'; // Replace this with the actual file name
         axios
-          .post('http://localhost:8000/estimate', data)
+          .post(`http://localhost:8000/estimate/${data}`)
+          // .post('http://localhost:8000/estimate', data)
           .then(response => {
             const x = response.data.Ability ?? [];
             const a = response.data.Discrimination ?? [];
             const b = response.data.Difficulty ?? [];
+            console.log(x,a,b)
             const sigmoid = (x, a, b) => {
               const denominator = 1 + Math.exp(-a * (x - b));
               return denominator === 0 ? NaN : 1 / denominator;
             };
             const y = x.map((val, idx) => sigmoid(val, a[idx], b[idx]));
+            console.log(y)
             const sortedData = x.map((value, index) => [value, y[index]])
               .sort((a, b) => a[0] - b[0]);
             const sortedX = sortedData.map(pair => pair[0]);
@@ -39,10 +42,10 @@ function IRT() {
           .catch(error => {
             console.error(error);
           });
-      })
-      .catch(error => {
-        console.error(error);
-      });
+      // })
+      // .catch(error => {
+      //   console.error(error);
+      // });
   };
 
   return (
