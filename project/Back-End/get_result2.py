@@ -2,6 +2,7 @@ from fastapi import FastAPI,Body
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from girth import twopl_mml
+import matplotlib as plt 
 import pandas as pd
 import numpy as np
 import csv
@@ -62,21 +63,22 @@ def estimate_item_params(string_input: str):
         attempt.user_id = user_map[attempt.user_id]
         attempt.ex_id = ex_map[attempt.ex_id]
 
-    matrix = [[False] * len(ex_map) for _ in range(len(user_map))]
+    matrix = [[False] * len(user_map) for _ in range(len(ex_map))]
     for attempt in attempts:
         if attempt.count_correct != 0:
             if attempt.count_attempts / attempt.count_correct >= 0.75:
-                matrix[attempt.user_id][attempt.ex_id] = True
+                matrix[attempt.ex_id][attempt.user_id] = True
     matrix_data = np.array(matrix)
     matrix_data = matrix_data.astype(int)
-    ability = matrix_data.sum(axis=1)
-    ability = np.interp(ability, (ability.min(), ability.max()), (-20, 20))
+    ability = matrix_data.sum(axis=0)
+    ability = np.interp(ability, (ability.min(), ability.max()), (-3, 3))
     estimates = twopl_mml(matrix_data)
     discrimination = estimates['Discrimination'].tolist()
     difficulty = estimates['Difficulty'].tolist()
-    print(discrimination)
-    print(difficulty)
+    print(discrimination[48])
+    print(difficulty[48])
     print(ability)
+    
 
     return {
         'Discrimination': discrimination,
