@@ -3,11 +3,20 @@ import axios from 'axios';
 import { ColumnSeries,ChartComponent, SeriesCollectionDirective,Tooltip, DataLabel, SeriesDirective, Category, Legend, Inject, LineSeries ,Zoom, ScrollBar } from '@syncfusion/ej2-react-charts';
 import { ScrollingCarousel } from '@trendyol-js/react-carousel';
 import { FiBook } from 'react-icons/fi';
+import Carousel from 'react-bootstrap/Carousel';
 import { Header ,IRT } from '../components';
+import Slider from 'react-slick';
 
   const Home = () => {
     const [data, setData] = useState([]);
-
+    const settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 3,
+      slidesToScroll: 2,
+      
+    };
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -37,11 +46,7 @@ import { Header ,IRT } from '../components';
   const load = (args) => {
       args.chart.zoomModule.isZoomed = true;
   };
-  const [book, setBook] = useState('Introduction to Programming');
-  
-  const handleBookChange = (event) => {
-    setBook(event.target.value);
-  };
+  const [book, setBook] = useState('');
   
   const filteredData = data.filter((data) => data.BOOK === book);
 
@@ -50,16 +55,18 @@ import { Header ,IRT } from '../components';
      <Header category="Page" title="Home" />
      
      <div className='m-5 text-[40px] text-[#066579] font-bold'>Your Books</div>
-<ScrollingCarousel >
-        <button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Introduction to Programming')}><FiBook className='inline mr-'/>Introduction to Programming</button>
-        <button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Database Systems')}>Database Systems</button>
-        <button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Computer Networks')}>Computer Networks</button>
-        <button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Web Development')}>Web Development</button>
-        <button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Operating Systems')}>Operating Systems</button>
-        <button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Artificial Intelligence')}>Artificial Intelligence</button>
-        <button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Computer Graphics')}>Computer Graphics</button>
-</ScrollingCarousel>
-
+     <div>
+<Slider {...settings}>
+       <div><button className='text-[25px] bg-white m-6 p-3 h-[100px] w-auto hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Introduction to Programming')}><FiBook className='inline mr-'/>Introduction to Programming</button></div> 
+       <div><button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Database Systems')}>Database Systems</button></div> 
+       <div><button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Computer Networks')}>Computer Networks</button></div> 
+       <div><button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Web Development')}>Web Development</button></div> 
+       <div><button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Operating Systems')}>Operating Systems</button></div> 
+       <div><button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Data Structures and Algorithms')}>Data Structures and Algorithms</button></div> 
+       <div><button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Computer Graphics')}>Computer Graphics</button></div> 
+        <div><button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Software Engineering')}>Software Engineering</button></div> 
+        </Slider>  
+</div>
         
       <div className='m-5 text-[40px] text-[#066579] font-bold'>Student Preformance</div>
       <ChartComponent id='charts'  title="Student Performance" 
@@ -76,7 +83,7 @@ import { Header ,IRT } from '../components';
       </SeriesCollectionDirective>
     </ChartComponent>
     <div>
-      <IRT/>
+      {/* <IRT/> */}
     </div>
     </div>
   );
