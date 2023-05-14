@@ -20,11 +20,7 @@ import Slider from 'react-slick';
     useEffect(() => {
       const fetchData = async () => {
         try {
-<<<<<<< HEAD
-          const response = await axios.post('http://localhost:8000/api/student_book_data');
-=======
           const response = await axios.post('http://localhost:4000/api/student_book_data');
->>>>>>> 3f50aa0f3ce80cd2fe149f73c73f294b3daa71b8
           setData(response.data);
         } catch (error) {
           console.error(error);
@@ -46,11 +42,7 @@ import Slider from 'react-slick';
       labelFormat: 'y',
       intervalType: 'Years',
       edgeLabelPlacement: 'Shift' };
-<<<<<<< HEAD
-  const primaryyAxis = { minimum: 0, maximum: 500, interval: 100 };
-=======
   const primaryyAxis = { minimum: 0, maximum: 1500, interval: 300 };
->>>>>>> 3f50aa0f3ce80cd2fe149f73c73f294b3daa71b8
   const load = (args) => {
       args.chart.zoomModule.isZoomed = true;
   };
@@ -59,19 +51,6 @@ import Slider from 'react-slick';
   const filteredData = data.filter((data) => data.BOOK === book);
 
       return (
-<<<<<<< HEAD
-    <div className='mt-24'>
-       <select onChange={handleBookChange} value={book}>
-        <option value="Introduction to Programming">Introduction to Programming</option>
-        <option value="Data Structures and Algorithms">Data Structures and Algorithms</option>
-        <option value="Database Systems">Database Systems</option>
-        <option value="Computer Networks">Computer Networks</option>
-        <option value="Web Development">Web Development</option>
-        <option value="Operating Systems">Operating Systems</option>
-        <option value="Artificial Intelligence">Artificial Intelligence</option>
-        <option value="Computer Graphics">Computer Graphics</option>
-      </select>
-=======
     <div className='m-2 md:m-10 mt-24 p-2 md:p-10 bg-[#F6F6F6] rounded-3xl'>
      <Header category="Page" title="Home" />
      
@@ -90,7 +69,6 @@ import Slider from 'react-slick';
 </div>
         
       <div className='m-5 text-[40px] text-[#066579] font-bold'>Student Preformance</div>
->>>>>>> 3f50aa0f3ce80cd2fe149f73c73f294b3daa71b8
       <ChartComponent id='charts'  title="Student Performance" 
       primaryXAxis={primaryxAxis} primaryYAxis={primaryyAxis} zoomSettings={zoomsettings} load={load} tooltip={{ enable: true }}>
           
