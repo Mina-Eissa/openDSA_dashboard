@@ -2,7 +2,6 @@ import React , { useState , useEffect }  from 'react';
 import axios from 'axios';
 import { ScrollingCarousel } from '@trendyol-js/react-carousel';
 import { FiBook } from 'react-icons/fi';
-import Carousel from 'react-bootstrap/Carousel';
 import { Header ,IRT } from '../components';
 import Slider from 'react-slick';
 const Instructors = () => {
@@ -18,7 +17,7 @@ const Instructors = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post('http://localhost:4000/api/student_book_data');
+        const response = await axios.get('http://localhost:4000/api/student_book_data');
         setData(response.data);
       } catch (error) {
         console.error(error);
@@ -36,7 +35,7 @@ const filteredData = data.filter((data) => data.BOOK === book);
    
    <div className='m-5 text-[40px] text-[#066579] font-bold'>Your Books</div>
    <div>
-<Slider {...settings}>
+   <ScrollingCarousel>
        <div><button className='text-[25px] bg-white m-6 p-3 h-[100px] w-auto hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Introduction to Programming')}><FiBook className='inline mr-'/>Introduction to Programming</button></div> 
        <div><button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Database Systems')}>Database Systems</button></div> 
        <div><button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Computer Networks')}>Computer Networks</button></div> 
@@ -45,7 +44,7 @@ const filteredData = data.filter((data) => data.BOOK === book);
        <div><button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Data Structures and Algorithms')}>Data Structures and Algorithms</button></div> 
        <div><button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Computer Graphics')}>Computer Graphics</button></div> 
         <div><button className='text-[25px] bg-white m-6 p-3 h-[100px] w-[300px] hover:drop-shadow-xl rounded-3xl font-bold' onClick={() => setBook('Software Engineering')}>Software Engineering</button></div> 
-        </Slider>  
+        </ScrollingCarousel>  
 </div>
       
     <div className='m-5 text-[40px] text-[#066579] font-bold'>Student Preformance</div>
