@@ -61,7 +61,7 @@ async def estimate_item_params(string_input: str):
     matrix = [[False] * len(ex_map) for _ in range(len(user_map))]
     for attempt in attempts:
         if attempt.count_correct != 0:
-            if attempt.count_attempts / attempt.count_correct >= 0.75:
+            if attempt.count_correct / attempt.count_attempts >= 0.75:
                 matrix[attempt.user_id][attempt.ex_id] = True
     matrix_data = np.array(matrix)
     matrix_data = matrix_data.astype(int)
