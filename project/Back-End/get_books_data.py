@@ -72,4 +72,5 @@ async def get_books_data():
         return data
     
     json_data = jsonable_encoder(arrange_books())
+    print(json_data)
     return json_data
