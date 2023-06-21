@@ -46,7 +46,7 @@ async def get_books_data():
         for row in sections:
             row_dict={}
             if row[2] == chapterid:
-                row_dict["id"]=row[0]
+                row_dict["Section_id"]=row[0]
                 row_dict["name"]=row[1]
                 row_dict["exercises"] = arrange_exercises(row[0])
                 data.append(row_dict)
@@ -56,7 +56,7 @@ async def get_books_data():
         for row in chapters:
             row_dict = {}
             if row[2] == bookid:
-                row_dict["id"]=row[0]
+                row_dict["Chapter_id"]=row[0]
                 row_dict["name"]=row[1]
                 row_dict["sections"] = arrange_sections(row[0])
                 data.append(row_dict)
@@ -65,7 +65,7 @@ async def get_books_data():
         data = []
         for row in books:
             row_dict = {}
-            row_dict["id"]=row[0]
+            row_dict["Book_id"]=row[0]
             row_dict["name"]=row[1]
             row_dict["chapters"] = arrange_chapters(row[0])
             data.append(row_dict)
