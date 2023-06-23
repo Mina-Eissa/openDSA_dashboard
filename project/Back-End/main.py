@@ -9,7 +9,7 @@ from get_books_data import router as get_books_data_router
 from Filtered_IRT import router as filtered_IRT_router
 from get_books import router as get_books_router
 from students_brief import router as students_brief_router
-
+from Filtered_book import router as filtered_book_router
 app = FastAPI()
 # Add CORS middleware
 app.add_middleware(
@@ -28,6 +28,7 @@ app.include_router(get_books_data_router)
 app.include_router(filtered_IRT_router)
 app.include_router(get_books_router)
 app.include_router(students_brief_router)
+app.include_router(filtered_book_router)
 
 if __name__ == '__main__':
     import uvicorn
