@@ -4,11 +4,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import APIRouter
 import mysql.connector
 
+from dotenv import load_dotenv
+import os
+load_dotenv()  # Load environment variables from .env file
 mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="1234",
-    database="dashboard"
+    host=os.getenv("DB_HOST"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    database=os.getenv("DB_DATABASE")
 )
 
 router = APIRouter()
