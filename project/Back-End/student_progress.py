@@ -39,7 +39,7 @@ async def get_students_enrolled_in_book(SID=None, BID=None, CHID=None, SECID=Non
     query_section = "SELECT SID,SECID,SUM(NUMBER_OF_ATTEMPTS) AS SECTION_NUM_OF_ATTEMPTS,SUM(NUMBER_OF_HINTS) AS SECTION_NUM_OF_HINTS,SUM(NUMBER_OF_INCORRECT_ATTEMPTS) AS SECTION_NUM_OF_INCORRECT_ATTEMPTS,TIMESPENT FROM STUDENT_SECTION WHERE SID=%s AND SECID=%s"
 
     mycursor.execute("Select concat(sfirst_name,' ',slast_name) as name from student\
-                     where SID = %s ", (SID,))
+                    where SID = %s ", (SID,))
     student_name = mycursor.fetchall()[0][0]
     
     mycursor.execute(query_general, (SID, BID,))

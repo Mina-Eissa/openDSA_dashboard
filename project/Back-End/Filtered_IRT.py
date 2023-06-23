@@ -1,8 +1,9 @@
 from typing import List
-from fastapi import FastAPI, Query
+from fastapi import Body, FastAPI, Query
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import APIRouter
+from pydantic import BaseModel
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -15,18 +16,18 @@ mycursor = mydb.cursor()
 
 router = APIRouter()
 
+class ListOfChoices(BaseModel):
+    Choices : list[int]
+
+
+
 @router.get('/api/Filtered_IRT/Chapters/')
-def get_exercises(listOfChapters: str):
+def get_exercises(listOfChapters: ListOfChoices):
 
-    chapter_ids =[]
-    if listOfChapters.__contains__(","):
-        chapter_ids = [int(chapter_id) for chapter_id in listOfChapters.split(',')]
-    else:
-        chapter_ids = [int(listOfChapters)]
-
-    query = "SELECT EXID, SID, NUMBER_OF_ATTEMPTS AS ATTEMPTS, GREATEST(NUMBER_OF_ATTEMPTS - NUMBER_OF_INCORRECT_ATTEMPTS, 0) AS CORRECT FROM STUDENT_EXERCISE \
-          WHERE CHID IN ({})".format(",".join(["%s"] * len(chapter_ids)))
-    mycursor.execute(query, chapter_ids)
+    print(listOfChapters.Choices)
+    query = "SELECT DISTINCT EXID, SID, NUMBER_OF_ATTEMPTS AS ATTEMPTS, GREATEST(NUMBER_OF_ATTEMPTS - NUMBER_OF_INCORRECT_ATTEMPTS, 0) AS CORRECT FROM STUDENT_EXERCISE \
+          WHERE CHID IN ({})".format(",".join(["%s"] * len(listOfChapters.Choices)))
+    mycursor.execute(query, listOfChapters.Choices)
     data = mycursor.fetchall()
     listOfExe = []
     for row in data:
@@ -41,16 +42,12 @@ def get_exercises(listOfChapters: str):
 
 
 @router.get('/api/Filtered_IRT/Sections/')
-def get_exercises(listOfSections: str):
-    section_ids = []
-    if listOfSections.__contains__(","):
-        section_ids = [int(section_id) for section_id in listOfSections.split(',')]
-    else:
-        section_ids = [int(listOfSections)]
-
-    query = "SELECT EXID, SID, NUMBER_OF_ATTEMPTS AS ATTEMPTS, GREATEST(NUMBER_OF_ATTEMPTS - NUMBER_OF_INCORRECT_ATTEMPTS, 0) AS CORRECT FROM STUDENT_EXERCISE \
-          WHERE SECID IN ({})".format(",".join(["%s"] * len(section_ids)))
-    mycursor.execute(query, section_ids)
+def get_exercises(listOfSections: ListOfChoices):
+    
+    query = "SELECT DISTINCT EXID, SID, NUMBER_OF_ATTEMPTS AS ATTEMPTS, GREATEST(NUMBER_OF_ATTEMPTS - NUMBER_OF_INCORRECT_ATTEMPTS, 0) AS CORRECT FROM STUDENT_EXERCISE \
+          WHERE SECID IN ({})".format(",".join(["%s"] * len(listOfSections.Choices)))
+    
+    mycursor.execute(query, listOfSections.Choices)
     data = mycursor.fetchall()
     listOfExe = []
     for row in data:
