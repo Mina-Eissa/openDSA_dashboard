@@ -54,7 +54,7 @@ def get_exercises(query,params):
         result.append(record)
     return result
 
-@router.get('/api/Filtered_Book/Book/')
+@router.post('/api/Filtered_Book/Book/')
 def get_chapters_and_sections_and_exercises_(BID=None):
     message = ""
     if BID is None:

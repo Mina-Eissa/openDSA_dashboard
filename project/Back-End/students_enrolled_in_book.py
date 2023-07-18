@@ -17,7 +17,7 @@ mydb = mysql.connector.connect(
 router = APIRouter()
 
 
-@router.get("/api/students_enrolled_in_book/")
+@router.post("/api/students_enrolled_in_book/")
 async def get_students_enrolled_in_book(BID: str):
     mycursor = mydb.cursor()
 

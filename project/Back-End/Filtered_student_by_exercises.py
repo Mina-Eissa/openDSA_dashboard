@@ -20,7 +20,7 @@ router = APIRouter()
 class ListOfChoices(BaseModel):
     Choices : list[int]
 
-@router.get('/api/Filtered_Student_bu_Exercises/')
+@router.post('/api/Filtered_Student_by_Exercises/')
 def get_students(listOfExercises:ListOfChoices):
     if len(listOfExercises.Choices)==0:
         ret={"Student":[]}

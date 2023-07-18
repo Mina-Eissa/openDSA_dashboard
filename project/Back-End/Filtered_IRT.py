@@ -23,7 +23,7 @@ class ListOfChoices(BaseModel):
 
 
 
-@router.get('/api/Filtered_IRT/Chapters/')
+@router.post('/api/Filtered_IRT/Chapters/')
 def get_exercises(listOfChapters: ListOfChoices):
 
     print(listOfChapters.Choices)
@@ -43,7 +43,7 @@ def get_exercises(listOfChapters: ListOfChoices):
     return json_result
 
 
-@router.get('/api/Filtered_IRT/Sections/')
+@router.post('/api/Filtered_IRT/Sections/')
 def get_exercises(listOfSections: ListOfChoices):
     
     query = "SELECT DISTINCT EXID, SID, NUMBER_OF_ATTEMPTS AS ATTEMPTS, GREATEST(NUMBER_OF_ATTEMPTS - NUMBER_OF_INCORRECT_ATTEMPTS, 0) AS CORRECT FROM STUDENT_EXERCISE \

@@ -16,7 +16,7 @@ mydb = mysql.connector.connect(
 router = APIRouter()
 
 
-@router.get("/api/students_brief/")
+@router.post("/api/students_brief/")
 def students_brief(BID=None):
     cursor = mydb.cursor()
     if BID == None:

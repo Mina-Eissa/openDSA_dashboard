@@ -31,7 +31,7 @@ def get_data(myresult, mycursor):
     return row_dict
 
 
-@router.get("/api/student_progress/")
+@router.post("/api/student_progress/")
 async def get_students_enrolled_in_book(SID=None, BID=None, CHID=None, SECID=None):
     data = []
     if SID is None and BID is None and CHID is None and SECID is None:
