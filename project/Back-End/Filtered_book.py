@@ -82,7 +82,7 @@ def get_chapters_and_sections_and_exercises_(BID=None):
 
 
 
-@router.get('/api/Filtered_Book/Chapter/')
+@router.post('/api/Filtered_Book/Chapter/')
 def get_sections_and_exercises_(listOfChapters:ListOfChoices):
     if len(listOfChapters.Choices)==0:
         ret = {"Sections":[],"Exercises":[]}
@@ -100,7 +100,7 @@ def get_sections_and_exercises_(listOfChapters:ListOfChoices):
     json_data=jsonable_encoder(data)
     return json_data
 
-@router.get('/api/Filtered_Book/Section/')
+@router.post('/api/Filtered_Book/Section/')
 def get_exercises_(listOfSections:ListOfChoices):
     if len(listOfSections.Choices)==0:
         ret = {"Exercises":[]}
