@@ -7,37 +7,85 @@ import pandas as pd
 import numpy as np
 import csv
 import os
+from pydantic import BaseModel
+import mysql.connector
+from dotenv import load_dotenv
+
+load_dotenv()  # Load environment variables from .env file
+
+mydb = mysql.connector.connect(
+    host=os.getenv("DB_HOST"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    database=os.getenv("DB_DATABASE")
+)
+cursor = mydb.cursor()
 print(os.getcwd())
 
 
 class Attempt:
-    def __init__(self, user_id=0, ex_id=0, count_attempts=0, count_correct=0):
+    def __init__(self, ex_id=0, user_id=0, count_attempts=0, count_correct=0):
         self.user_id = user_id
         self.ex_id = ex_id
         self.count_attempts = count_attempts
         self.count_correct = count_correct
 
+    def __str__(self):
+        return f"{self.user_id} {self.ex_id} {self.count_attempts} {self.count_correct}"
+
+
+class ListOfChoices(BaseModel):
+    Choices : list[int]
 
 router = APIRouter()
 
+def get_data(ListOfExe: list[int]):
+    query = "with view as (\
+            select distinct ex.id as EXID ,student.id as StudentID ,OXA.count_attempts as ALL_Attempts,OXA.correct as Correct \
+            from users as student\
+            join odsa_exercise_attempts as OXA\
+            on OXA.user_id = student.id\
+            join inst_book_section_exercises as IBSX\
+            on IBSX.id = OXA.inst_book_section_exercise_id\
+            join inst_exercises as ex\
+            on ex.id = IBSX.inst_exercise_id\
+            where ex.id in ({})\
+            )\
+            select EXID,StudentID,sum(ALL_Attempts),sum(Correct) \
+            from view \
+            group by EXID,StudentID".format(",".join(["%s"] * len(ListOfExe)))
+    cursor.execute(query,ListOfExe)
+    data = cursor.fetchall()
+    attempts = []
+    for row in data:
+        a, b, c, d = map(int, row)
+        attempt = Attempt(a, b, c, d)
+        attempts.append(attempt)
+    return attempts
+    
 
-@router.post("/estimate/{string_input}")
-async def estimate_item_params(string_input: str):
-    fileName = string_input
-    print(fileName)
-    try:
-        with open(fileName, "r") as file:
-            csvreader = csv.reader(file)
-            next(csvreader)  # skip header row
-            attempts = []
-            for row in csvreader:
-                a, b, c, d = map(int, row)
-                attempt = Attempt(a, b, c, d)
-                attempts.append(attempt)
-    except IOError as e:
-        print(f"Could not open file: {e}")
-        return 1
-
+@router.post("/estimate/")
+async def estimate_item_params(ListOfExe : ListOfChoices):
+    # fileName = string_input
+    # print(fileName)
+    # try:
+    #     with open(fileName, "r") as file:
+    #         csvreader = csv.reader(file)
+    #         next(csvreader)  # skip header row
+    #         attempts = []
+    #         for row in csvreader:
+    #             a, b, c, d = map(int, row)
+    #             attempt = Attempt(a, b, c, d)
+    #             attempts.append(attempt)
+    # except IOError as e:
+    #     print(f"Could not open file: {e}")
+    #     return 1
+    attempts = get_data(ListOfExe.Choices)
+    for ex in ListOfExe.Choices:
+        attempts.append(Attempt(0,ex,0,0))
+    
+    for it in attempts:
+        print(it)
     user_map = {}
     ex_map = {}
     for attempt in attempts:

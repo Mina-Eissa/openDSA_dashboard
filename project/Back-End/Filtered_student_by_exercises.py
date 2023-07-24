@@ -26,15 +26,17 @@ def get_students(listOfExercises:ListOfChoices):
         ret={"Student":[]}
         return jsonable_encoder(ret)
     
-    query="SELECT S.SID AS ID ,CONCAT(S.SFIRST_NAME,' ',S.SLAST_NAME) AS NAME,\
-            SUM(SE.NUMBER_OF_ATTEMPTS) AS ALL_ATTEMPTS,SUM(SE.NUMBER_OF_INCORRECT_ATTEMPTS) AS INCORRECT_ATTEMPTS,\
-            SUM(SE.NUMBER_OF_HINTS) AS HINTS,SUM(SE.TIMESPENT)  AS TIME\
-            FROM STUDENT AS S\
-            JOIN STUDENT_EXERCISE AS SE\
-            ON SE.SID = S.SID\
-            WHERE SE.EXID IN ({})\
-            GROUP BY S.SID\
-            ORDER BY S.SID ASC".format(",".join(["%s"] * len(listOfExercises.Choices)))
+    query="select distinct U.id as ID, concat(U.first_name,' ',U.last_name) as Name,sum(OXA.count_attempts),sum(OXP.total_correct),sum(OXA.count_hints),sum(OXA.time_taken)\
+        from users as U\
+        join odsa_exercise_attempts as OXA\
+        on OXA.user_id = U.id\
+        join inst_book_section_exercises as IBSE\
+        on IBSE.id = OXA.inst_book_section_exercise_id\
+        join odsa_exercise_progresses as OXP\
+        on OXP.user_id = U.id\
+        where IBSE.inst_exercise_id in ({})\
+        group by U.id\
+        order by U.id ASC".format(",".join(["%s"] * len(listOfExercises.Choices)))
     
     cursor.execute(query,listOfExercises.Choices)
     data = cursor.fetchall()
@@ -45,7 +47,7 @@ def get_students(listOfExercises:ListOfChoices):
         record["Student_ID"] = row[0]
         record["Studnet_Name"] =row[1]
         record["All_Attempts"]= row[2]
-        record["Incorrect_Attempts"]= row[3]
+        record["correct_Attempts"]= row[3]
         record["Hints"] = row[4]
         record["Time"] = row[5]
         result.append(record)

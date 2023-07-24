@@ -22,16 +22,23 @@ def excute_query(query):
 
 @router.get("/api/get_books_data")
 async def get_books_data():
-    query="select bookid, bname from book"
+    query="select id , title from inst_books"
     books = excute_query(query)
-    query = "select chid, chname, bookid from chapter\
-                order by bookid"
+    query = "select distinct id, name, inst_book_id from inst_chapters\
+            order by inst_book_id"
     chapters = excute_query(query)
-    query = "select secid, secname, chid from section\
-                order by chid"
+    query = "select distinct m.id, m.name, chmod.inst_chapter_id from inst_modules as m\
+            join inst_chapter_modules as chmod\
+            on chmod.inst_module_id = m.id\
+            order by chmod.inst_chapter_id"
     sections = excute_query(query)
-    query = "select exid, exname , secid from exercise\
-                order by secid"
+    query = "select distinct e.id,e.name,m.inst_module_id\
+            from inst_exercises as e\
+            join inst_module_section_exercises as mse\
+            on mse.inst_exercise_id = e.id\
+            join inst_module_versions as m\
+            on m.id = mse.inst_module_version_id\
+            order by m.inst_module_id"
     exercises = excute_query(query)
 
 
@@ -75,5 +82,4 @@ async def get_books_data():
         return data
     
     json_data = jsonable_encoder(arrange_books())
-    print(json_data)
     return json_data

@@ -20,9 +20,12 @@ router = APIRouter()
 @router.post("/api/students_enrolled_in_book/")
 async def get_students_enrolled_in_book(BID: str):
     mycursor = mydb.cursor()
-
-    mycursor.execute(
-        "SELECT SID,CONCAT(SFIRST_NAME,' ',SLAST_NAME) as Name FROM student where SID in (Select SID from student_book where BID= %s)", (BID,))
+    query = "select distinct student.id ,concat(student.first_name,' ',student.last_name) as name\
+            from users as student\
+            join inst_books as book\
+            on book.user_id = student.id\
+            where book.id = %s;"
+    mycursor.execute(query, (BID,))
 
     myresult = mycursor.fetchall()
 

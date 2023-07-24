@@ -20,7 +20,7 @@ router = APIRouter()
 @router.get("/api/get_books")
 def get_books():
     mycursor = mydb.cursor()
-    query = "SELECT BookID, BNAME FROM BOOK "
+    query = "select id ,title from inst_books"
     mycursor.execute(query)
     result = mycursor.fetchall()
     data = []
