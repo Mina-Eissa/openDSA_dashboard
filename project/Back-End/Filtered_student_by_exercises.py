@@ -26,14 +26,12 @@ def get_students(listOfExercises:ListOfChoices):
         ret={"Student":[]}
         return jsonable_encoder(ret)
     
-    query="select distinct U.id as ID, concat(U.first_name,' ',U.last_name) as Name,sum(OXA.count_attempts),sum(OXP.total_correct),sum(OXA.count_hints),sum(OXA.time_taken)\
+    query="select distinct U.id as ID, concat(U.first_name,' ',U.last_name) as Name,sum(OXA.count_attempts),sum(OXA.correct),sum(OXA.count_hints),sum(OXA.time_taken)\
         from users as U\
         join odsa_exercise_attempts as OXA\
         on OXA.user_id = U.id\
         join inst_book_section_exercises as IBSE\
         on IBSE.id = OXA.inst_book_section_exercise_id\
-        join odsa_exercise_progresses as OXP\
-        on OXP.user_id = U.id\
         where IBSE.inst_exercise_id in ({})\
         group by U.id\
         order by U.id ASC".format(",".join(["%s"] * len(listOfExercises.Choices)))

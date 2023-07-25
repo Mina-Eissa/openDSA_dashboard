@@ -2,7 +2,7 @@ from fastapi import FastAPI, Body
 from fastapi.middleware.cors import CORSMiddleware
 from get_result import router as get_result_router
 from get_result2 import router as get_result2_router
-from student_book_data import router as student_book_data_router
+from student_course_data import router as student_book_data_router
 from student_progress import router as student_progress_router
 from students_enrolled_in_book import router as students_enrolled_in_book_router
 from get_books_data import router as get_books_data_router
@@ -11,6 +11,7 @@ from get_books import router as get_books_router
 from students_brief import router as students_brief_router
 from Filtered_book import router as filtered_book_router
 from Filtered_student_by_exercises import router as filtered_student_by_exercises_router
+from get_courses import router as get_courses_router
 app = FastAPI()
 # Add CORS middleware
 app.add_middleware(
@@ -31,6 +32,7 @@ app.include_router(get_books_router)
 app.include_router(students_brief_router)
 app.include_router(filtered_book_router)
 app.include_router(filtered_student_by_exercises_router)
+app.include_router(get_courses_router)
 
 if __name__ == '__main__':
     import uvicorn
