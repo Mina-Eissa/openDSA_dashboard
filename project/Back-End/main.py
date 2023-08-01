@@ -12,6 +12,7 @@ from students_brief import router as students_brief_router
 from Filtered_book import router as filtered_book_router
 from Filtered_student_by_exercises import router as filtered_student_by_exercises_router
 from get_courses import router as get_courses_router
+from get_exercises_from_real_data import router as get_exercises_from_real_data_router
 app = FastAPI()
 # Add CORS middleware
 app.add_middleware(
@@ -33,6 +34,7 @@ app.include_router(students_brief_router)
 app.include_router(filtered_book_router)
 app.include_router(filtered_student_by_exercises_router)
 app.include_router(get_courses_router)
+app.include_router(get_exercises_from_real_data_router)
 
 if __name__ == '__main__':
     import uvicorn

@@ -24,48 +24,33 @@ print(os.getcwd())
 
 
 class Attempt:
-    def __init__(self, ex_id=0, user_id=0, count_attempts=0, count_correct=0):
+    def __init__(self, ex_id="", user_id=0, count_attempts=0, count_correct=0):
         self.user_id = user_id
         self.ex_id = ex_id
         self.count_attempts = count_attempts
         self.count_correct = count_correct
-
+    
     def __str__(self):
         return f"{self.user_id} {self.ex_id} {self.count_attempts} {self.count_correct}"
 
 
-class ListOfChoices(BaseModel):
-    Choices : list[int]
-
 router = APIRouter()
 
-def get_data(ListOfExe: list[int]):
-    query = "with view as (\
-            select distinct ex.id as EXID ,student.id as StudentID ,OXA.count_attempts as ALL_Attempts,OXA.correct as Correct \
-            from users as student\
-            join odsa_exercise_attempts as OXA\
-            on OXA.user_id = student.id\
-            join inst_book_section_exercises as IBSX\
-            on IBSX.id = OXA.inst_book_section_exercise_id\
-            join inst_exercises as ex\
-            on ex.id = IBSX.inst_exercise_id\
-            where ex.id in ({})\
-            )\
-            select EXID,StudentID,sum(ALL_Attempts),sum(Correct) \
-            from view \
-            group by EXID,StudentID".format(",".join(["%s"] * len(ListOfExe)))
-    cursor.execute(query,ListOfExe)
+def get_data():
+    query = "select question_name,user_id,sum(count_attempts),sum(correct) from cs3_exercises_f21\
+            where request_type = 'attempt'\
+            group by user_id,question_name"
+    cursor.execute(query)
     data = cursor.fetchall()
     attempts = []
     for row in data:
-        a, b, c, d = map(int, row)
+        a, b, c, d = row[0],row[1],row[2],row[3]
         attempt = Attempt(a, b, c, d)
         attempts.append(attempt)
     return attempts
     
-
 @router.post("/estimate/")
-async def estimate_item_params(ListOfExe : ListOfChoices):
+async def estimate_item_params():
     # fileName = string_input
     # print(fileName)
     # try:
@@ -80,12 +65,11 @@ async def estimate_item_params(ListOfExe : ListOfChoices):
     # except IOError as e:
     #     print(f"Could not open file: {e}")
     #     return 1
-    attempts = get_data(ListOfExe.Choices)
-    for ex in ListOfExe.Choices:
-        attempts.append(Attempt(0,ex,0,0))
+    attempts = get_data()
     
     for it in attempts:
         print(it)
+
     user_map = {}
     ex_map = {}
     for attempt in attempts:
