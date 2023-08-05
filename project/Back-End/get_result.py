@@ -18,7 +18,7 @@ class InputData(BaseModel):
     ability: list[float] = []
 
 
-@router.post("/estimate")
+@router.post("/estimate2")
 def estimate_item_params(data: InputData):
     matrix_data = pd.DataFrame(data.matrix.data)
     matrix_data = matrix_data.dropna().astype(int).values

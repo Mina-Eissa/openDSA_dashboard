@@ -37,19 +37,19 @@ class Attempt:
 router = APIRouter()
 
 def get_data():
-    query = "select question_name,user_id,sum(count_attempts),sum(correct) from cs3_exercises_f21\
-            where request_type = 'attempt'\
-            group by user_id,question_name"
+    query = "select question_id,user_id,sum(count_attempts),sum(correct) from SummedData1\
+            group by question_id,user_id \
+            order by question_id"
     cursor.execute(query)
     data = cursor.fetchall()
     attempts = []
     for row in data:
-        a, b, c, d = row[0],row[1],row[2],row[3]
+        a, b, c, d = map(int,row)
         attempt = Attempt(a, b, c, d)
         attempts.append(attempt)
     return attempts
     
-@router.post("/estimate/")
+@router.get("/estimate/")
 async def estimate_item_params():
     # fileName = string_input
     # print(fileName)
@@ -67,8 +67,8 @@ async def estimate_item_params():
     #     return 1
     attempts = get_data()
     
-    for it in attempts:
-        print(it)
+    # for it in attempts:
+    #     print(it)
 
     user_map = {}
     ex_map = {}
@@ -90,11 +90,11 @@ async def estimate_item_params():
         attempt.user_id = user_map[attempt.user_id]
         attempt.ex_id = ex_map[attempt.ex_id]
 
-    matrix = [[False] * len(ex_map) for _ in range(len(user_map))]
+    matrix = [[False] * len(user_map) for _ in range(len(ex_map))]
     for attempt in attempts:
-        if attempt.count_correct != 0:
+        if attempt.count_attempts != 0:
             if attempt.count_correct / attempt.count_attempts >= 0.75:
-                matrix[attempt.user_id][attempt.ex_id] = True
+                matrix[attempt.ex_id][attempt.user_id] = True
     matrix_data = np.array(matrix)
     matrix_data = matrix_data.astype(int)
     ability = matrix_data.sum(axis=1)
